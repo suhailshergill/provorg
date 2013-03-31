@@ -13,3 +13,13 @@
 #+LINK_UP:   
 #+LINK_HOME: 
 #+XSLT:
+* DONE ensure remote code execution works                            :bugfix:
+  CLOSED: [2013-03-31 Sun 14:11]
+  - State "DONE"       from "TODO"       [2013-03-31 Sun 14:11] \\
+    Fixed by [[https://gist.github.com/suhailshergill/5233313][patch]]
+  
+  - State "TODO"       from ""           [2013-03-31 Sun 14:10] \\
+
+  :PROPERTIES:
+  :CUSTOM_ID: 8b6dd7bf-8ee7-4e61-be13-ab5cb3012b6c
+  :END:
