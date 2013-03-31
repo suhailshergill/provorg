@@ -13,6 +13,18 @@
 #+LINK_UP:   
 #+LINK_HOME: 
 #+XSLT:
+* DESCRIPTION
+  provorg is going to be a push-based provisioning system (think [[http://www.nico.schottelius.org/software/cdist/][cdist]], but
+  based off of emacs' [[http://orgmode.org/][org-mode]]).
+
+  requirements:
+  - working emacs + org-mode
+  - ssh + sudo access to hosts (cf. cdist, which requires you to have ssh
+    access to root)
+
+  basic idea:
+  - [ ] map physical hosts to capabilities
+  - [ ] perhaps have some notion of types to group together capabilities
 * DONE ensure remote code execution works                            :bugfix:
   CLOSED: [2013-03-31 Sun 14:11]
   - State "DONE"       from "TODO"       [2013-03-31 Sun 14:11] \\
