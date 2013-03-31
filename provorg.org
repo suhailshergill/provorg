@@ -23,3 +23,10 @@
   :PROPERTIES:
   :CUSTOM_ID: 8b6dd7bf-8ee7-4e61-be13-ab5cb3012b6c
   :END:
+* TODO set host dynamicaly
+  
+  - State "TODO"       from ""           [2013-03-31 Sun 14:08] \\
+
+  :PROPERTIES:
+  :CUSTOM_ID: a14252fd-dd46-413c-8219-1139558f38c1
+  :END:
