@@ -1,4 +1,5 @@
 (require 'ob)
+(require 'async)
 
 (eval-after-load 'ob
   '(progn
@@ -26,9 +27,15 @@
       su/provorg/host
     "localhost"))
 
+(defvar su/provorg/ob/execute-src-block/arg nil
+  "temporary scratchpad used to store the `arg' parameter for
+  `org-babel-execute-src-block'")
+(defvar su/provorg/ob/execute-src-block/info nil
+  "temporary scratchpad used to store the `info' parameter for
+  `org-babel-execute-src-block'")
 (defvar su/provorg/ob/execute-src-block/params nil
-  "temporary scratchpad used to store the updated set of params as being passed
-  to `org-babel-execute-src-block'")
+  "temporary scratchpad used to store the `params' parameter for
+  `org-babel-execute-src-block'")
 
 (defadvice org-babel-execute-src-block (before
                                         su/advice/ob/org-babel-execute-src-block/before/set-dir
@@ -64,6 +71,45 @@
   ;; the params alist. caching the value in another variable and calling
   ;; `ad-set-arg' from outside the `let*' works
   (ad-set-arg 2 su/provorg/ob/execute-src-block/params))
+
+(defadvice org-babel-execute-src-block (around
+                                        su/advice/ob/org-babel-execute-src-block/around/async
+                                        a c pre)
+  "Execute src-block with async"
+  (let* ((arg (ad-get-arg 0))
+         (info (or (ad-get-arg 1) (org-babel-get-src-block-info)))
+         (params (ad-get-arg 2))
+         (all-params (if params
+                         (org-babel-process-params
+                          (org-babel-merge-params (nth 2 info)
+                                                  params))
+                       (nth 2 info)))
+         (asyncp (su/provorg/utils/yes-or-no-to-boolean (aget all-params :async t)))
+         )
+    (setq su/provorg/ob/execute-src-block/arg arg
+          su/provorg/ob/execute-src-block/info info
+          su/provorg/ob/execute-src-block/params params)
+    (if asyncp
+        (async-start
+         `(lambda ()
+            ;; load config
+            ;; TODO: modularize the config and only load the 'relevant' bits?
+            (load-file "~/.emacs")
+            ;; disable confirmation of src-code execution
+            (setq org-confirm-babel-evaluate nil)
+            ;; deactivate `org-babel-execute-src-block' advice, on async calls
+            (ad-deactivate 'org-babel-execute-src-block)
+            ;; inject args
+            ,(async-inject-variables "su/provorg/ob/execute-src-block/")
+            (org-babel-execute-src-block su/provorg/ob/execute-src-block/arg
+                                         su/provorg/ob/execute-src-block/info
+                                         su/provorg/ob/execute-src-block/params))
+         (lambda (result)
+           (message "async::%s" result)))
+      ad-do-it
+      )
+    )
+)
 
 ;; (ad-deactivate 'org-babel-execute-src-block)
 ;; (setq su/provorg/host "chaos")

@@ -25,6 +25,31 @@
   basic idea:
   - [ ] map physical hosts to capabilities
   - [ ] perhaps have some notion of types to group together capabilities
+* HMM use async for sudo actions                                      :async:
+  - [[http://www.gnu.org/software/tramp/#Password-handling][cache tramp passwords]]?
+   
+  - State "HMM"       from "TODO"       [2013-04-01 Mon 17:29] \\
+    maybe this won't be needed after all? basically do all the heavy lifting using
+    passwordless stuff w/ async (which basically means no `sudo' action), and then
+    perform the sudo actions in the running emacs instance (which shouldn't be too
+    bad since all the heavy lifting has been done)
+
+   - State "TODO"       from ""           [2013-04-01 Mon 17:26] \\
+
+   :PROPERTIES:
+   :CUSTOM_ID: 67148f4e-4dc3-4c2f-bdac-f73c3cc8634b
+   :END:
+* DONE use [[https://github.com/jwiegley/emacs-async][async.el]] to execute (heavy) code blocks                    :async:
+  CLOSED: [2013-04-01 Mon 17:27]
+
+  - State "DONE"       from "TODO"       [2013-04-01 Mon 17:27] \\
+    using `su/advice/ob/org-babel-execute-src-block/around/async'
+
+  - State "TODO"       from ""           [2013-04-01 Mon 17:24] \\
+
+  :PROPERTIES:
+  :CUSTOM_ID: 80f01437-012e-4fc0-9c2e-b658fecc75d5
+  :END:
 * DONE ensure remote code execution works                            :bugfix:
   CLOSED: [2013-03-31 Sun 14:11]
   - State "DONE"       from "TODO"       [2013-03-31 Sun 14:11] \\
