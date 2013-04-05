@@ -60,7 +60,7 @@
   :PROPERTIES:
   :CUSTOM_ID: 8b6dd7bf-8ee7-4e61-be13-ab5cb3012b6c
   :END:
-* DONE set host dynamicaly
+* DONE set host dynamically
   CLOSED: [2013-03-31 Sun 14:35]
   - State "DONE"       from "TODO"       [2013-03-31 Sun 14:35]
   
