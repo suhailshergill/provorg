@@ -28,6 +28,18 @@
       su/provorg/host
     "localhost"))
 
+(defun su/provorg/get-path (dir &optional sudop)
+  "get the path based on the value of `su/provorg/host'"
+  (let* ((host (su/provorg/get-host))
+         (prefix (if sudop
+                     (concat "/sudo:" (if (string= host "localhost")
+                                          ":"
+                                        (concat "root@" host ":")))
+                   (if (string= host "localhost")
+                       ""
+                     (concat "/ssh:" host ":")))))
+    (concat prefix (or (file-remote-p dir 'localname) dir))))
+
 (defvar su/provorg/ob/execute-src-block/arg nil
   "temporary scratchpad used to store the `arg' parameter for
   `org-babel-execute-src-block'")
@@ -53,15 +65,7 @@
          (dir-dynp (su/provorg/utils/yes-or-no-to-boolean (aget all-params :dir-dyn t)))
          (sudop (su/provorg/utils/yes-or-no-to-boolean (aget all-params :sudo t)))
          (dir (or (aget all-params :dir t) default-directory))
-         (host (su/provorg/get-host))
-         (prefix (if sudop
-                     (concat "/sudo:" (if (string= host "localhost")
-                                          ":"
-                                        (concat "root@" host ":")))
-                   (if (string= host "localhost")
-                       ""
-                     (concat "/ssh:" host ":"))))
-         (path (concat prefix dir))
+         (path (su/provorg/get-path dir sudop))
          )
     (when dir-dynp
       (add-to-list 'params (cons :dir path)))
