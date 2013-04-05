@@ -9,6 +9,9 @@
      (add-to-list 'org-babel-common-header-args-w-values '(async . ((yes no))))
 
      (setq org-babel-header-arg-names (mapcar #'car org-babel-common-header-args-w-values))
+
+     (org-babel-lob-ingest "./provorg.org")
+
      ))
 
 (defun su/provorg/utils/yes-or-no-to-boolean (arg)
