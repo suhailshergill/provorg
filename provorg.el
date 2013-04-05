@@ -6,6 +6,7 @@
 
      (add-to-list 'org-babel-common-header-args-w-values '(sudo . ((no yes))))
      (add-to-list 'org-babel-common-header-args-w-values '(dir-dyn . ((yes no))))
+     (add-to-list 'org-babel-common-header-args-w-values '(async . ((yes no))))
 
      (setq org-babel-header-arg-names (mapcar #'car org-babel-common-header-args-w-values))
      ))
