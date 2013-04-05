@@ -90,16 +90,16 @@
     (setq su/provorg/ob/execute-src-block/arg arg
           su/provorg/ob/execute-src-block/info info
           su/provorg/ob/execute-src-block/params params)
-    (if asyncp
+    (if (and asyncp su/async/?)
         (async-start
          `(lambda ()
             ;; load config
             ;; TODO: modularize the config and only load the 'relevant' bits?
             (load-file "~/.emacs")
+            ;; 'disable' spawning off new async sessions
+            (setq su/async/? nil)
             ;; disable confirmation of src-code execution
             (setq org-confirm-babel-evaluate nil)
-            ;; deactivate `org-babel-execute-src-block' advice, on async calls
-            (ad-deactivate 'org-babel-execute-src-block)
             ;; inject args
             ,(async-inject-variables "su/provorg/ob/execute-src-block/")
             (org-babel-execute-src-block su/provorg/ob/execute-src-block/arg
