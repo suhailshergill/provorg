@@ -14,6 +14,7 @@
 #+LINK_HOME: 
 #+XSLT:
 #+PROPERTY: results silent
+#+PROPERTY: dir-dyn yes
 * DESCRIPTION
   provorg is going to be a push-based provisioning system (think [[http://www.nico.schottelius.org/software/cdist/][cdist]], but
   based off of emacs' [[http://orgmode.org/][org-mode]]).
@@ -27,13 +28,62 @@
   - [ ] map physical hosts to capabilities
   - [ ] perhaps have some notion of types to group together capabilities
 * utils
+** provorg
+  #+NAME: provorg/host/get
+  #+BEGIN_SRC emacs-lisp :dir-dyn no :dir ~ 
+    (provorg/host/get)
+  #+END_SRC
+  #+NAME: provorg/host/set
+  #+BEGIN_SRC emacs-lisp :dir-dyn no :dir ~ :var host=""
+    (provorg/host/set host)
+  #+END_SRC
+  #+NAME: provorg/host/push
+  #+BEGIN_SRC emacs-lisp :dir-dyn no :dir ~ :var host=""
+    (provorg/host/push host)
+  #+END_SRC
+  #+NAME: provorg/host/pop
+  #+BEGIN_SRC emacs-lisp :dir-dyn no :dir ~ 
+    (provorg/host/pop)
+  #+END_SRC
+
+** misc
   #+NAME: provorg/initd
-  #+BEGIN_SRC sh :dir-dyn yes :sudo yes :dir ~ :var app="reboot" :var action="start"
+  #+BEGIN_SRC sh :sudo yes :dir ~ :var app="reboot" :var action="start"
     /etc/init.d/$app $action
   #+END_SRC
-  #+NAME: provorg/get-host
-  #+BEGIN_SRC emacs-lisp 
-    (su/provorg/get-host)
+** git
+   - fetch head
+     #+NAME: git/head/get
+     #+BEGIN_SRC sh :dir ~ 
+       bash -i - <<EOF
+       workon $proj &> /dev/null
+       git rev-parse HEAD
+       EOF
+     #+END_SRC
+
+  - [[http://stackoverflow.com/a/1549155][find common ancestor]]
+  #+NAME: git/common-ancestor
+  #+BEGIN_SRC sh :dir ~ :var A="HEAD" :var B="HEAD" 
+    bash -i - <<EOF
+    workon $proj 1> /dev/null
+    git merge-base $A $B
+    EOF
+  #+END_SRC
+  - [[http://stackoverflow.com/a/3763075][remote-tracking branch]]
+  #+NAME: git/remote-tracking/get
+  #+BEGIN_SRC sh :dir ~ 
+    bash -i - <<EOF
+    workon $proj 1> /dev/null
+    git rev-parse --symbolic-full-name @{u}
+    EOF
+  #+END_SRC
+  - [[http://stackoverflow.com/a/2941614][commit title between range]]
+  #+NAME: git/log-titles-in-range
+  #+BEGIN_SRC sh :dir ~ :var A="HEAD" :var B="HEAD"
+    bash -i - <<EOF
+    workon $proj 1> /dev/null
+    git log --pretty=format:%s $A..$B
+    EOF
   #+END_SRC
 
 * HMM use async for sudo actions                                      :async:
