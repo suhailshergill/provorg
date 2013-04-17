@@ -45,6 +45,14 @@
   #+BEGIN_SRC emacs-lisp :dir-dyn no :dir ~ 
     (provorg/host/pop)
   #+END_SRC
+  #+NAME: provorg/init
+  #+BEGIN_SRC emacs-lisp 
+    (setq org-confirm-babel-evaluate nil)
+  #+END_SRC
+  #+NAME: provorg/quit
+  #+BEGIN_SRC emacs-lisp 
+    (setq org-confirm-babel-evaluate t)
+  #+END_SRC
 
 ** misc
   #+NAME: provorg/initd
