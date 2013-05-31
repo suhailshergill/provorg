@@ -10,7 +10,10 @@
 
      (setq org-babel-header-arg-names (mapcar #'car org-babel-common-header-args-w-values))
 
-     (org-babel-lob-ingest "./provorg.org")
+     (dolist (bol '(
+                    "./provorg.org"
+                    "./recipes.org"
+                    )) (org-babel-lob-ingest bol))
 
      ))
 
