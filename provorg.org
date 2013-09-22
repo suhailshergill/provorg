@@ -108,6 +108,17 @@
    :PROPERTIES:
    :CUSTOM_ID: 67148f4e-4dc3-4c2f-bdac-f73c3cc8634b
    :END:
+* TODO [[file:~/config/_common/emacs/.emacs.d/github/org/lisp/ob-tangle.el::182][org-babel-tangle]] [0/1]
+  - [ ] specify block to tangle using [[file:~/.emacs.d/github/org/lisp/ob.el::1524][name]]
+    - just define an elisp function which you can use?
+    - use [[help:save-excursion][save-excursion]]
+  
+  [[help:][Definition reference for nil]]
+  - State "TODO"       from ""           [2013-07-09 Tue 18:20] \\
+
+  :PROPERTIES:
+  :CUSTOM_ID: 9b224b3f-2c35-4165-9b96-64a202149484
+  :END:
 * DONE use [[https://github.com/jwiegley/emacs-async][async.el]] to execute (heavy) code blocks                    :async:
   CLOSED: [2013-04-01 Mon 17:27]
 
