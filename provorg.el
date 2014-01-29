@@ -10,10 +10,12 @@
 
      (setq org-babel-header-arg-names (mapcar #'car org-babel-common-header-args-w-values))
 
-     (dolist (bol '(
-                    "./provorg.org"
-                    "./recipes.org"
-                    )) (org-babel-lob-ingest bol))
+     (let ((dir (file-name-directory (or load-file-name
+                                         buffer-file-name))))
+       (dolist (bol '(
+                      "./provorg.org"
+                      "./recipes.org"
+                      )) (org-babel-lob-ingest (expand-file-name bol dir))))
 
      ))
 
