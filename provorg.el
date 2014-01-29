@@ -65,6 +65,10 @@
       nil)
      (arg))))
 
+(defun provorg/utils/get-var (var params-list)
+  "extract value of variable if defined by header arguments"
+  (cdr (assoc var (mapcar #'cdr (org-babel-get-header params-list :var)))))
+
 ;;}}}
 
 ;;{{{ host
