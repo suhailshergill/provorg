@@ -112,10 +112,9 @@
 
 ;;{{{ dir-dyn
 
-(defun provorg/get-path (dir &optional sudop)
-  "get the path based on the value of `provorg/host'"
-  (let* ((host (provorg/host/get))
-         (prefix (if sudop
+(defun provorg/get-path (host dir &optional sudop)
+  "get the path based on the value of `host'"
+  (let* ((prefix (if sudop
                      (concat "/sudo:" (if (string= host "localhost")
                                           ":"
                                         (concat "root@" host ":")))
@@ -141,11 +140,16 @@
                        (nth 2 info)))
          (dir-dynp (provorg/utils/yes-or-no-to-boolean (aget all-params
                                                              :dir-dyn t)))
+         (host (or (if dir-dynp
+                       (provorg/utils/get-var 'provorg/host all-params))
+                   ;; either dir-dynp is false or 'provorg/host var not set via
+                   ;; header
+                   (provorg/host/get)))
          (sudop (provorg/utils/yes-or-no-to-boolean (aget all-params :sudo t)))
          (dir (or (aget all-params :dir t) (if dir-dynp
                                                "~"
                                              default-directory)))
-         (path (provorg/get-path dir sudop))
+         (path (provorg/get-path host dir sudop))
          )
 
     (when dir-dynp
