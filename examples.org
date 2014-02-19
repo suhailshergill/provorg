@@ -1,0 +1,37 @@
+#+PROPERTY: results replace output
+#+PROPERTY: dir-dyn yes
+
+* disable auto-confirm
+  #+CALL: provorg/init[]() :results silent
+* provorg/call-lob
+  say we have a blob of code as follows:
+  #+NAME: scratch
+  #+BEGIN_SRC emacs-lisp :var foo="foo" :results value  
+    (message foo)
+  #+END_SRC
+
+  #+RESULTS: scratch
+  : foo
+
+  and we want to call it. in org-babel we will proceed as follows:
+  #+CALL: scratch[](foo="bar") :results value 
+
+  #+RESULTS: scratch(foo="bar"):results value 
+  : bar
+
+  the drawback with the previous approach is that it doesn't really allow you
+  to group calls to generic functions together. 
+  #+NAME: call/scratch
+  #+BEGIN_SRC emacs-lisp :results value
+    (let ((output (provorg/call-lob "scratch"
+                                    :inside-header `((:var foo= "bar"))
+                                    :end-header `((:results value)
+                                                  (:results silent)))))
+      output)
+  #+END_SRC
+
+  #+RESULTS: call/scratch
+  : bar
+
+* enable auto-confirm
+  #+CALL: provorg/quit[]() :results silent
