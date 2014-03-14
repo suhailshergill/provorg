@@ -70,9 +70,9 @@
   traverse to directory of choice (while redirecting stdout), ensures that
   virtualenv startup messages don't get in the way of the actual stuff
   #+NAME: provorg/cmd
-  #+BEGIN_SRC sh :dir ~ :var dir="~/" cmd="pwd" 
+  #+BEGIN_SRC sh :dir ~ :var cmd="pwd" 
     bash -i - <<EOF
-    cd $dir &> /dev/null
+    cd . &> /dev/null # force workspace related things, if any
     $cmd
     EOF
   #+END_SRC
