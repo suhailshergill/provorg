@@ -20,7 +20,8 @@
   : bar
 
   the drawback with the previous approach is that it doesn't really allow you
-  to group calls to generic functions together. 
+  to group calls to generic functions together. but we can do it with the elisp
+  interface:
   #+NAME: call/scratch
   #+BEGIN_SRC emacs-lisp :results value
     (let ((output (provorg/call-lob "scratch"
