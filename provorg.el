@@ -29,24 +29,26 @@
           var-list))
 (defun provorg/call-lob (func &rest args)
   "call lob functions"
-  (let ((inside-header (plist-get args :inside-header))
-        (arg (plist-get args :args))
-        (end-header (plist-get args :end-header)))
-    (org-babel-lob-execute (list
-                            (concat func
-                                    "[" (mapconcat 'identity (provorg/call-lob/mkstr inside-header) " ") "]"
-                                    "(" (mapconcat 'identity (provorg/call-lob/mkstr arg) ", ") ")")
-                            (mapconcat 'identity (provorg/call-lob/mkstr
-                                                  end-header) " ")
-                            ;; indentation. in most normal cases i've
-                            ;; encountered this has been 2, but it's possible in
-                            ;; certain circumstances this is different
+  (save-excursion
+    (with-temp-buffer
+      (let ((inside-header (plist-get args :inside-header))
+            (arg (plist-get args :args))
+            (end-header (plist-get args :end-header)))
+        (org-babel-lob-execute (list
+                                (concat func
+                                        "[" (mapconcat 'identity (provorg/call-lob/mkstr inside-header) " ") "]"
+                                        "(" (mapconcat 'identity (provorg/call-lob/mkstr arg) ", ") ")")
+                                (mapconcat 'identity (provorg/call-lob/mkstr
+                                                      end-header) " ")
+                                ;; indentation. in most normal cases i've
+                                ;; encountered this has been 2, but it's possible in
+                                ;; certain circumstances this is different
 
-                            ;; TODO:
-                            ;; investigate. [[help:org-babel-get-src-block-info]]
-                            ;; and [[help:org-babel-parse-src-block-match]]
-                            2))
-    ))
+                                ;; TODO:
+                                ;; investigate. [[help:org-babel-get-src-block-info]]
+                                ;; and [[help:org-babel-parse-src-block-match]]
+                                2))
+        ))))
 
 ;;}}}
 
