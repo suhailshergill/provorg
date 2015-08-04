@@ -68,15 +68,23 @@
                                   :inside-header `((:var host=,host)
                                                    (:eval yes)
                                                    (:results value))))
-          (output (provorg/call-lob cmd
-                                    :inside-header `((:eval yes))))
+          (output (with-demoted-errors 
+                    "Error: %S"
+                    ;; it seems like `org-babel-lob-execute' already has some
+                    ;; robustness to errors built in. specifically, what has been
+                    ;; observed is that when `provorg/call-delimitation' is called
+                    ;; with a `cmd' which errors out, execution still proceeds as
+                    ;; normal to the following line. unclear if this behaviour can
+                    ;; be relied on and as such still adding the
+                    ;; `with-demoted-errors' invocation/
+                    (provorg/call-lob cmd
+                                      :inside-header `((:eval yes)))))
           (host2 (provorg/call-lob "provorg/host/pop"
                                   :inside-header `((:eval yes)
                                                    (:results value))))
           )
       (mapconcat 'prin1 `(,host ,output) ": "))
   #+END_SRC
-*** TODO add error recovery to provorg/call-delimited
 ** misc
   #+NAME: provorg/initd
   #+BEGIN_SRC sh :sudo yes :dir ~ :var app="reboot" :var action="start"
