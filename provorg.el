@@ -171,15 +171,15 @@
                           (org-babel-merge-params (nth 2 info)
                                                   params))
                        (nth 2 info)))
-         (dir-dynp (provorg/utils/yes-or-no-to-boolean (aget all-params
+         (dir-dynp (provorg/utils/yes-or-no-to-boolean (alist-get all-params
                                                              :dir-dyn t)))
          (host (or (if dir-dynp
                        (provorg/utils/get-var 'provorg/host all-params))
                    ;; either dir-dynp is false or 'provorg/host var not set via
                    ;; header
                    (provorg/host/get)))
-         (sudop (provorg/utils/yes-or-no-to-boolean (aget all-params :sudo t)))
-         (dir (or (aget all-params :dir t) (if dir-dynp
+         (sudop (provorg/utils/yes-or-no-to-boolean (alist-get all-params :sudo t)))
+         (dir (or (alist-get all-params :dir t) (if dir-dynp
                                                "~"
                                              default-directory)))
          (path (provorg/get-path host dir sudop))
@@ -227,11 +227,12 @@
                           (org-babel-merge-params (nth 2 info)
                                                   params))
                        (nth 2 info)))
-         (asyncp (provorg/utils/yes-or-no-to-boolean (aget all-params :async t)))
+         (asyncp (provorg/utils/yes-or-no-to-boolean (alist-get all-params :async t)))
          )
     (setq provorg/ob/execute-src-block/arg arg
           provorg/ob/execute-src-block/info info
           provorg/ob/execute-src-block/params params)
+    (defvar su/async/?)
     (if (and asyncp su/async/?)
         (async-start
          `(lambda ()
